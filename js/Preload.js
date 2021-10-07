@@ -14,7 +14,8 @@ Platform.Preload.prototype = {
 
     //TileMap
     this.load.tilemap('map', 'assets/tilemaps/map.json', null, Phaser.Tilemap.TILED_JSON);
-    
+    this.load.tilemap('mapL2', 'assets/tilemaps/mapL2.json', null, Phaser.Tilemap.TILED_JSON);
+
     //Images
     this.load.image('menu-bg', 'assets/images/menu-bg.png');
     this.load.image('bg', 'assets/images/bg.png');
@@ -24,6 +25,7 @@ Platform.Preload.prototype = {
     this.load.spritesheet('rain', 'assets/images/rain.png', 8, 8);
     this.load.spritesheet('player', 'assets/images/run.png', 16, 16);
     this.load.spritesheet('gem', 'assets/images/gem.png', 7, 7);
+    this.game.load.spritesheet('button', 'assets/images/st.png', 50, 25);
     
     //Audio
     this.load.audio('jump', ['assets/audio/jump.mp3']);

@@ -3,6 +3,8 @@ var pixel = { scale: 4, canvas: null, context: null, width: 0, height: 0 };
 var isMobile = !!navigator.userAgent.match(/iphone|android|blackberry/ig) || false;
 var gameOver = false;
 var getAllGems = false;
+var gameLevel = 1;
+var button;
 
 Platform.Game = function () { };
 
@@ -18,29 +20,15 @@ Platform.Game.prototype = {
     //Set BG
     this.bg = this.game.add.tileSprite(0, 0, 320, 160, 'bg');
 
-    //Add rain on web, mobile causes so much trouble
-    if (!isMobile) {
-      this.rain = this.game.add.emitter(this.game.world.centerX, 0, 400);
-      this.rain.width = this.game.world.width;
-      this.rain.makeParticles('rain');
-
-      this.rain.minParticleScale = 0.1;
-      this.rain.maxParticleScale = 0.5;
-
-      this.rain.setYSpeed(300, 500);
-      this.rain.setXSpeed(-5, 5);
-
-      this.rain.minRotation = 0;
-      this.rain.maxRotation = 0;
-
-      this.rain.start(false, 1600, 5, 0);
-    }
-
     //Score
     this.score = 0;
 
     //TileMap
-    this.tilemap = this.game.add.tilemap('map');
+    if (gameLevel === 1) {
+      this.tilemap = this.game.add.tilemap('map');
+    } else {
+      this.tilemap = this.game.add.tilemap('mapL2');
+    }
     this.tilemap.addTilesetImage('tiles', 'tiles');
 
     //Tile Map Layers
@@ -59,7 +47,7 @@ Platform.Game.prototype = {
     this.gems = this.game.add.group();
 
     // Add gems
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < 2; i++) {
       this.gems.create(this.game.world.randomX, this.game.world.randomY, 'gem', 0);
     }
 
@@ -75,6 +63,7 @@ Platform.Game.prototype = {
     }, this);
 
     //  Create Yaka
+
     this.player = this.game.add.sprite(10, 50, 'player');
     this.game.physics.arcade.enable(this.player);
     this.player.body.bounce.y = 0.2;
@@ -168,8 +157,14 @@ Platform.Game.prototype = {
     }
   },
 
-  init: function () {
+  initLevel2: function () {
+    console.log("L2")
+    gameLevel++;
+    gameOver = true;
+    this.game.state.start('Game');
+  },
 
+  init: function () {
     this.game.canvas.style['display'] = 'none';
     if (!isMobile) pixel.canvas = Phaser.Canvas.create(window.innerWidth, this.game.height * (window.innerHeight / this.game.height));
     if (isMobile) pixel.canvas = Phaser.Canvas.create((window.innerHeight / (this.game.height / this.game.width)), window.innerHeight);
@@ -181,14 +176,29 @@ Platform.Game.prototype = {
     pixel.height = pixel.canvas.height;
   },
 
+  sleep: function (num) {
+    var now = new Date();
+    var stop = now.getTime() + num;
+    while (true) {
+      now = new Date();
+      if (now.getTime() > stop) return;
+    }
+  },
+
   render: function () {
+    this.game.debug.text('Level:' + gameLevel, 10, 14, "#fff", "Courier");
     this.game.debug.text('Score:' + this.score, 172, 14, "#fff", "Courier");
-    if (gameOver) this.game.debug.text('Don\'t hit the lava!', 50, 100, "#FFA000", "Courier");
-    if (getAllGems) {
+    if (gameOver) this.game.debug.text('Don\'t hit the Acid Creek!', 50, 100, "#FFA000", "Courier");
+    if (getAllGems && gameLevel !== 2) {
       this.sounds.win.play();
       this.sounds.bg.destroy();
       this.game.debug.text('LEVEL COMPLETED!', 35, 50, "#0095CD", "16px Courier");
-      this.game.debug.text('GET READY FOR LEVEL 2', 18, 60, "#0095CD", "11px Courier");
+      this.game.debug.text('GET READY FOR LEVEL 2', 30, 60, "#0095CD", "11px Courier");
+      this.initLevel2();
+    } else if (getAllGems && gameLevel === 2) {
+      this.sounds.win.play();
+      this.sounds.bg.destroy();
+      this.game.debug.text('YOU HAVE WON!', 50, 50, "#0095CD", "16px Courier");
     }
     pixel.context.drawImage(this.game.canvas, 0, 0, this.game.width, this.game.height, 0, 0, pixel.width, pixel.height);
   },

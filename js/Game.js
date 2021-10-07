@@ -47,7 +47,7 @@ Platform.Game.prototype = {
     this.gems = this.game.add.group();
 
     // Add gems
-    for (var i = 0; i < 2; i++) {
+    for (var i = 0; i < 10; i++) {
       this.gems.create(this.game.world.randomX, this.game.world.randomY, 'gem', 0);
     }
 

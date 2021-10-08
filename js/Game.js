@@ -141,6 +141,7 @@ Platform.Game.prototype = {
     this.sounds.death.play();
     gameOver = true;
     this.sounds.bg.destroy();
+    this.score = 0;
     this.game.state.start('Game');
   },
 

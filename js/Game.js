@@ -30,6 +30,8 @@ Platform.Game.prototype = {
       this.tilemap = this.game.add.tilemap('mapL2');
     } else if (gameLevel === 3) {
       this.tilemap = this.game.add.tilemap('mapL3');
+    } else if (gameLevel === 4) {
+      this.tilemap = this.game.add.tilemap('mapL4');
     }
     this.tilemap.addTilesetImage('tiles', 'tiles');
 
@@ -206,6 +208,13 @@ Platform.Game.prototype = {
       this.initLevel2();
     }
     else if (getAllGems && gameLevel === 3) {
+      this.sounds.win.play();
+      this.sounds.bg.destroy();
+      this.game.debug.text('LEVEL COMPLETED!', 35, 50, "#0095CD", "16px Courier");
+      this.game.debug.text('GET READY FOR LEVEL 4', 30, 60, "#0095CD", "11px Courier");
+      this.initLevel2();
+    }
+    else if (getAllGems && gameLevel === 4) {
       this.sounds.win.play();
       this.sounds.bg.destroy();
       this.game.debug.text('YOU HAVE WON!', 50, 50, "#0095CD", "16px Courier");

@@ -16,6 +16,7 @@ Platform.Preload.prototype = {
     this.load.tilemap('map', 'assets/tilemaps/map.json', null, Phaser.Tilemap.TILED_JSON);
     this.load.tilemap('mapL2', 'assets/tilemaps/mapL2.json', null, Phaser.Tilemap.TILED_JSON);
     this.load.tilemap('mapL3', 'assets/tilemaps/mapL3.json', null, Phaser.Tilemap.TILED_JSON);
+    this.load.tilemap('mapL4', 'assets/tilemaps/mapL4.json', null, Phaser.Tilemap.TILED_JSON);
 
 
     //Images

@@ -26,8 +26,10 @@ Platform.Game.prototype = {
     //TileMap
     if (gameLevel === 1) {
       this.tilemap = this.game.add.tilemap('map');
-    } else {
+    } else if (gameLevel === 2) {
       this.tilemap = this.game.add.tilemap('mapL2');
+    } else if (gameLevel === 3) {
+      this.tilemap = this.game.add.tilemap('mapL3');
     }
     this.tilemap.addTilesetImage('tiles', 'tiles');
 
@@ -190,13 +192,20 @@ Platform.Game.prototype = {
     this.game.debug.text('Level:' + gameLevel, 10, 14, "#fff", "Courier");
     this.game.debug.text('Score:' + this.score, 172, 14, "#fff", "Courier");
     if (gameOver) this.game.debug.text('Don\'t hit the Acid Creek!', 50, 100, "#FFA000", "Courier");
-    if (getAllGems && gameLevel !== 2) {
+    if (getAllGems && gameLevel === 1) {
       this.sounds.win.play();
       this.sounds.bg.destroy();
       this.game.debug.text('LEVEL COMPLETED!', 35, 50, "#0095CD", "16px Courier");
       this.game.debug.text('GET READY FOR LEVEL 2', 30, 60, "#0095CD", "11px Courier");
       this.initLevel2();
     } else if (getAllGems && gameLevel === 2) {
+      this.sounds.win.play();
+      this.sounds.bg.destroy();
+      this.game.debug.text('LEVEL COMPLETED!', 35, 50, "#0095CD", "16px Courier");
+      this.game.debug.text('GET READY FOR LEVEL 3', 30, 60, "#0095CD", "11px Courier");
+      this.initLevel2();
+    }
+    else if (getAllGems && gameLevel === 3) {
       this.sounds.win.play();
       this.sounds.bg.destroy();
       this.game.debug.text('YOU HAVE WON!', 50, 50, "#0095CD", "16px Courier");
